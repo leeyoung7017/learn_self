@@ -1,0 +1,23 @@
+ struct sigaction {
+               void     (*sa_handler)(int);
+               void     (*sa_sigaction)(int, siginfo_t *, void *);
+               sigset_t   sa_mask;
+               int        sa_flags;
+               void     (*sa_restorer)(void);
+           };
+sa_flags：		   
+			SA_ONSTACK		
+			
+			SA_RESTART
+			
+			SA_NOCLDSTOP				:ignore signal else from child process
+			
+			SA_SIGINFO					
+			
+			SA_NODEFER	/	SA_NOMASK	:do not mask/stop the signal when the handler is running
+			
+			SA_RESETHAND	/	SA_ONESHOT	:run only the handler once
+			
+			SA_NOCLDWAIT				:do not transform child process into zombies when they terminate 
+
+			SA_RESTORER		

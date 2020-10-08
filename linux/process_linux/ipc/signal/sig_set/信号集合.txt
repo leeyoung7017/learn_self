@@ -1,0 +1,17 @@
+信号机的操作一般来自对于多信号的处理
+
+sigemptyset: 初始化信号集合为空
+
+sigfillset: 初始化信号集合为所有信号的集合
+
+sigaddset: 将指定信号加入到信号集合中去
+
+sigdelset: 将指定信号从信号集合中删去
+
+sigismember: 查询指定信号是否在信号集合之中
+
+sigprocmask：更改信号屏蔽字
+
+igaction：用于改变进程接受到特定信号之后的行为
+
+sigpending：检测“未决”信号（进程不清楚它的存在），并进一步决定对它们的处理

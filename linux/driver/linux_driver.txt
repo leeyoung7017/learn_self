@@ -1,0 +1,59 @@
+linux驱动: 	字符驱动；无缓冲流，也只能顺序读写，按字节读取
+			块驱动；硬盘类储存设备
+			网络驱动；
+	
+
+linux内核驱动模块编写：
+	#include <linux/init.h>
+	#include <linux/module.h>
+	加载函数：
+			设备号的申请 	 alloc_chrdev_religion()
+							 register_chrdev_religion()
+			
+			cdev结构体申请	 cdev_alloc()
+			
+			file_operation		函数编写 	.read .open .ioctl ...
+			
+			cdev_init()
+			
+			cdev_add()
+			
+			cdev_del()
+			
+			unregister_chrdev_religion()
+
+	模块入口(加载)，出口(卸载)，GPL协议申明
+	
+	具体：
+		入口：			module_init(加载函数名);  	int  __init function(void);
+		出口：			module_exit(卸载函数名);	void __exit function(void);
+		GPL协议申明:	MODULE_LICENSE("GPL");
+	
+编译：
+	编译器：gcc  交叉编译工具
+	
+	编写编译内核模块的Makefile：
+			
+			内部编译 ：将内核模块源文件放在内核源码中进行编译 (占用内存)
+			
+			静态编译 ：将内核模块编译进uImage中
+			
+			外部编译 ：将内核模块源文件放在内核源码外进行编译
+			
+			动态编译 ：就是编译生成 ./xxx
+			
+			make -C pwd(内核源码路径(linux自己的平台架构)/自己规定的平台框架(例如arm架构)) M=pwd(当前路径) modules
+			
+			make -C pwd M=pwd(当前路径) clean 
+			
+			obj-m := 
+			
+模块的使用:
+		查看内核模块信息：modinfo		查看当前内核中已经加载的模块：lsmod		查看内核日志信息：dmesg -c 清除
+		
+		如何将模块加载到内核  insmod ————管理员模式		加载函数会被调用    init_module（）函数
+
+		如何将模块从内核卸载  rmmod ————管理员模式		卸载函数会被调用	cleanup_module（）函数
+		
+		
+		

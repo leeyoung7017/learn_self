@@ -1,0 +1,7 @@
+ipc：进程间的通信
+传统：				管道：有名管道；无名管道；
+					信号（signal；sigaction）
+IPC对象：			消息队列（message queue）
+					信号量（semaphore）
+					共享内存（shared memory）
+网络进程通信(BSD)：	socket（嵌套字）

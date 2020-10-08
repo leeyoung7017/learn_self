@@ -1,0 +1,42 @@
+信号量的操作就是对信号量做PV操作;
+
+semid:	是标识信号量的描述符；
+
+进程信号量：对共享资源的的访问；多进程之间的互斥和同步；
+信号量集：对多个共享资源的访问；一个信号量指向一个共享资源；
+对一个信号量指向的共享资源的访问，进行V操作——0，访问完毕后，进行P操作——1；
+
+
+
+semid_ds：信号量集的属性
+
+union semun {
+               int              val;    /* Value for SETVAL */
+               struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+               unsigned short  *array;  /* Array for GETALL, SETALL */
+               struct seminfo  *__buf;  /* Buffer for IPC_INFO
+                                           (Linux-specific) */
+           };/*联合体*//*信号量、信号量的属性、信号量集共用一个存储空间*/
+
+
+struct sembuf {
+				unsigned short  sem_num;	/* semaphore index in array */
+				short		sem_op;		/* semaphore operation */
+				short		sem_flg;	/* operation flags *//*SEM_UNDO/SEM_NOWAIT*/
+				};/*对信号量或信号量集的某一信号量进行PV操作*/
+
+
+
+int semget() :创建捕获信号量;成功返回信号量集的ID
+	申请信号量或信号量集；
+
+
+int semctl() :对信号量集的操作;（获取属性，获取信号量的value）
+	对信号量进行初始值的赋值；
+	对信号量的删除，清除空间；
+
+
+
+int semop()	 :P操作和V操作;（对某个信号量的操作）
+	对共享资源的获取访问权；（P操作：对信号量的值进行-value）
+	对共享资源的递交访问权；（V操作：对信号量的值进行+value）

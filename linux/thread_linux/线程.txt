@@ -1,0 +1,30 @@
+		每个进程都有自己的数据段、代码段、堆栈段
+		进程间的切换比较复杂
+		系统进行资源分配和调度的基本单位
+多线程：multi-thread
+	同一个进程中并发的多道执行路径，是处理器调度的最小单元。多线程共享一个进程资源。还有自己独立的线程控制表和堆栈。
+	pthread_creat()
+	pthread_exit()
+	pthread_cancel()
+	pthread_join()
+	
+	mutex  互斥锁，某种意义上的全局变量
+
+	防止多线程同时操作
+	pthread_mutex_init()	初始化
+	pthread_mutex_lock()	上锁
+	pthread_mutex_trylock()	判断上锁
+	pthread_mutex_unlock()	解锁
+	pthread_mutex_destroy()	消除互斥锁
+	
+	信号量操作，为了将多线程运行顺序的控制；
+	sem_init()
+	sem_wait()
+	sem_post()
+	sem_destroy()
+	
+	
+																		多线程+多进程
+	线程：用户线程；内核线程；
+	
+	不要尝试使用exit()函数，会让进程退出。
