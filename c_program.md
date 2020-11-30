@@ -30,7 +30,17 @@
 | **auto变量**     | **动态分布存储空间，默认为auto变量**                         |
 | **全局变量**     | **作用域：从全局变量定义开始，到该文本文件结束都可以使用**   |
 
+int长度是计算机的字长；16位计算机：2bytes；32位计算机：4bytes
 
+double为64位，8bytes
+
+float为32位，4bytes
+
+char为8位，1byte
+
+long为 *2
+
+short为 /2
 
 # 运算
 
@@ -323,14 +333,212 @@ strncat(char *a1,char *a2，int n)
 
 * `p = a[i]`    `p = &a[i][j]`    **`*a  *(a+i) *(*(a+i)+j)`**    `int *a[]//不限行，列不唯一`
 
-# 自定义数据类型
+# 自定义==数据类型==
 
-结构体
+## 结构体 
 
-共用体
+结构体变量，系统分配给它的内存为各成员所需内存量的总和
 
-枚举类型
+### 结构体定义
 
-typedef
+```c
+struct student
+{
+  int num;
+  char *name;
+  int age;
+  char *sex; 
+  struct 
+  {
+    int year;
+    int day;
+    int month;
+  }birth;	//该birth为该无名结构体的结构体变量
+};		//该分号不能缺
+```
+
+### 结构体变量的定义
+
+#### 结构体与变量定义分开
+
+````
+struct student stu1;
+struct student stu2;
+//stu1,stu2都是结构体变量名
+````
+
+#### 结构体与变量结合
+
+```c
+struct student
+{int num;
+  char *name;
+  int age;
+  char *sex; 
+  struct 
+  {
+    int year;
+    int day;
+    int month;
+  }birth;	//该birth为该无名结构体的结构体变量 
+}stu1,stu2;  //定义stu1 stu2的名为student的结构体的结构体变量
+```
+
+#### 无结构体名的定义
+
+```c
+struct
+{
+  int num;
+  char *name;
+  int age;
+  char *sex; 
+  struct 
+  {
+    int year;
+    int day;
+    int month;
+  }birth;	//该birth为该无名结构体的结构体变量 
+}stu1,stu2;  //定义stu1 stu2的结构体变量，该结构体没有结构体名
+```
+
+### 结构体变量的引用
+
+```c
+stu1.num = 10;
+stu1.num++;//表示在stu1中的num实现自加；而不是结构体中num自加
+stu2.name = "lishuyang";
+stu1.birth.year = 1999;
+stu2.birth.month = 9;
+```
+
+### 结构体变量的初始化
+
+可以如引用一样一一赋值；
+
+```c
+struct
+{
+  int num;
+  char *name;
+  int age;
+  char *sex; 
+  struct 
+  {
+    int year;
+    int day;
+    int month;
+  }birth;	//该birth为该无名结构体的结构体变量 
+}stu1 = {10,"lishuyang",20,"male",{1999,2,9}};
+```
+
+### 结构体数组
+
+其实就是将上面的结构体变量换成了结构体数组
+
+相当于多个结构体变量的集合组成了数组；相当于一个二维数组
+
+```c
+struct
+{
+  int num;
+  char *name;
+  int age;
+  char *sex; 
+  struct 
+  {
+    int year;
+    int day;
+    int month;
+  }birth;	//该birth为该无名结构体的结构体变量 
+}stu[2] = {{10,"lishuyang",20,"male",{1999,2,9}},
+  {11,"lienze",20,"female",{1999,27,9}}};
+//该变量为结构体变量
+```
+
+### 结构体指针
+
+```c
+struct student *stu1;
+stu1->num = 10;//stu1->age 已经不是指针了，就是一个整型数据，将其视为一个整体，不能分开看
+stu1->name = "lishuyang";
+(*stu1).age = 20;
+```
+
+### 指向结构体数组的指针
+
+```c
+struct student stu[10];
+struct student stu_p = stu;
+```
+
+## 结构体作为函数参数
+
+结构体变量作为形参
+
+结构体变量指针作为形参
+
+结构体内部成员作为形参
+
+## 共用体（内存为成员中占内存量最大者所需的容量）
+
+共用体的定义，初始化与结构体类似
+
+union代替struct
+
+之所以叫做共用体，是因为所有成员共用一个存储空间；
+
+初始化只能为第一个成员初始化；赋值的话只能对成员赋值，赋值按最新的赋值存入地址；
+
+## 枚举类型
+
+enum内部的成员默认依次为0，1，2...【除非已经定义好初始成员的值，之后成员自加1】
+
+而且枚举类型的变量不能直接赋值为数值，而赋值为数值代替的成员，
+
+如果一定是数值的话要加上“（枚举类型名）”
+
+## typedef
+
+```c
+typedef int Integer; //指定 Integer 为类型名，代表int
+//命名新的结构体类型、枚举类型、共用体类型、指针类型、数组类型
+//typedef 相当于 #define 的功能，区别就是代替的一个是字符串，一个是各种数据类型
+```
+
+
 
 # 文件
+
+从用户角度看，文件可分为普通文件和设备文件
+
+从文件编码方式上来看，文件可分为ASCII码文件和二进制码文件
+
+文件指针FILE
+
+```c
+FILE *fp
+  fp = fopen(文件名,打开方式); //失败返回NULL，成功fp指针
+/*  "rt"		打开文本文件，只读
+		"wt"		打开文本文件，只写
+		"at"		打开文本文件，末尾写
+		"rb"		打开二进制文件，只读
+		"wb"		打开二进制文件，只写
+		"ab"		打开二进制文件，末尾写
+		"rt+"		打开文本文件，读写
+		"wt+"		打开文本文件，读写
+		"at+"		打开文本文件，读或末尾写
+		"rb+"		打开二进制文件，读写
+		"wb+"		打开二进制文件，读写
+		"ab+"		打开二进制文件，读或末尾写*/
+	fclose(fp);//返回0或EOF(end of file)
+	fputs("字符串",fp);//将字符串写入
+	fgets(字符数组名,length,fp);//将（length-1）字节的字符串赋值到字符数组中,最后为"\0"
+	fgetc(fp);//读取一个字符
+	fputc('字符',fp);//将字符写入
+	fread(指针,size,count,fp);//将文件中的内容读取count次，每次读取size字节
+	fwirte(指针,size,count,fp);//将指针中的内容分count次写入，每次写入size字节
+	fprintf(fp,"%d",n);//将n的值写入
+	fscanf(fp,”%d“,&n);//将文件内容写入n中
+```
+
