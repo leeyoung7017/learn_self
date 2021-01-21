@@ -127,3 +127,87 @@ dsn文件						![quicker_a7dcfac5-3542-4951-8424-2476a76fa829.png](https://i.lol
 方法二：
 
 ![quicker_dfe5f41c-72e6-498c-89ca-3697d476c332.png](https://i.loli.net/2021/01/17/4fq9zXetlWrsKIk.png)
+
+# PCB绘制
+
+PCB Editor——Allegro PCB Editor XL(可以file—change editor)
+
+view——customize toolbar——菜单配置
+
+shift+鼠标——视图
+
+## class与subclass
+
+options中可以查看class与class下的subclass；display——color visibility下
+
+board geometry——dimension——尺寸
+
+​							 ——Outline——外边框
+
+​							 ——Assembly_Notes——要点信息
+
+​							 ——place_Grid——自动布局有关
+
+​							 ——Rooms——与自动布局有关
+
+​							——Silkscreen——私印信息
+
+stack-up——soldermask——组焊层
+
+​				——pastemask——加焊层
+
+操作前提：需要确定好class—subclass，在哪里画。
+
+## PCB封装
+
+pad designer软件进行封装
+
+type:through(通孔)，blind/buried(盲孔、埋孔)，single(贴片)
+
+internal layers：fixed，optional
+
+units：单位
+
+Multiple drill：孔
+
+drill、slothole：孔和缝隙
+
+layers：封装包含的层，通常也要配置**组焊层—与正常焊盘大0.1mm**与**加焊层—与正常尺寸相同**—regular Pad设置尺寸
+
+### 简单配置
+
+打开进行封装 package symbol
+
+setup——design parameter——design——left x  lower y  都是相对于原点的坐标
+
+setup——grid——改变栅格
+
+### 绘图过程：package_geometry:arrow_right:class
+
+放置引脚:arrow_right:图形边框:arrow_right:参考编号:arrow_right:加栅格(防止多个封装存在重叠)​
+
+layout——pin——option——connect——padstack：引脚的放置
+
+图形边框：assembly_top——add——line   起始坐标【x x0 y0】移动【ix length】【iy length】
+
+​					丝印层元件外形：silkscreen_top层——add line————器件的外轮廓
+
+add ——rectangle——place_bound_top层————查看是否有重叠
+
+参考编号：layout——label——refdes——assembly_top和silkscreen_top层
+
+
+
+### 特殊形状的引脚
+
+PCB editer:arrow_right:shape_symble:arrow_right:获取尺寸:arrow_right:用规则图形拼凑（shape中的形状）:arrow_right:shape_merge shapes（融合重叠区域）:arrow_right:create symble:arrow_right:setup——user preference——paths——padpath psmpath设置路径
+
+pad designer——layers——shape
+
+
+
+
+
+
+
+![quicker_081ffd21-042b-4efa-9b81-6764e1551968.png](https://i.loli.net/2021/01/19/JBz9TODg3SsaNGe.png)
