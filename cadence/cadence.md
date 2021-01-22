@@ -172,7 +172,7 @@ Multiple drill：孔
 
 drill、slothole：孔和缝隙
 
-layers：封装包含的层，通常也要配置**组焊层—与正常焊盘大0.1mm**与**加焊层—与正常尺寸相同**—regular Pad设置尺寸
+layers：封装包含的层，通常也要配置**组焊层—与正常焊盘大0.2mm**与**加焊层—与正常尺寸相同**—regular Pad设置尺寸	***圆形焊盘半径大0.1mm***
 
 ### 简单配置
 
@@ -211,3 +211,48 @@ pad designer——layers——shape
 
 
 ![quicker_081ffd21-042b-4efa-9b81-6764e1551968.png](https://i.loli.net/2021/01/19/JBz9TODg3SsaNGe.png)
+
+
+
+画元器件的PCB的步骤
+
+新建	
+
+| class            | subclass        | function                             |
+| ---------------- | --------------- | ------------------------------------ |
+| Package Geometry | Assembly _Top   | LayOut---Pin，Add---Line             |
+| Package Geometry | Silkscreen_Top  | Add---Line,同时标注PIN的起始位置line |
+| Package Geometry | Place_Bound_Top | Add---Rectangle                      |
+| Ref_Des          | Assemably_Top   | Add---Text                           |
+| Ref_Des          | Silkscreen_Top  | Add---Text                           |
+
+```
+注意:
+	1. 对于特殊形状的引脚需要自己画，然后再Pad Designer；而非特殊的引脚一般直接在Pad Designer中产生；
+	2. 装配层的边框一般为除引脚外的部分边框，而丝印层的边框一般为该元器件的最大尺寸所占空间；
+	3.
+```
+
+
+
+# 通孔类元件的绘制
+
+
+
+
+
+
+
+
+
+# LP Wizard的操作方法
+
+Calculate——SMD Calculate——查找封装，对应的芯片
+
+查看Land_Top层，左侧点击Land Pattern按钮显示Pin焊盘尺寸
+
+# 各种封装模型
+
+SOIC-----两边都是引脚
+
+PQFP----四周都是引脚
