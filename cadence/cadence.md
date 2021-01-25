@@ -1,3 +1,7 @@
+1mm约等于40mil
+
+1mil约等于0.025mm
+
 # library的创建
 
 olb文件创建 - newpart
@@ -210,13 +214,13 @@ pad designer——layers——shape
 
 
 
-![quicker_081ffd21-042b-4efa-9b81-6764e1551968.png](https://i.loli.net/2021/01/19/JBz9TODg3SsaNGe.png)
+<img src="https://i.loli.net/2021/01/19/JBz9TODg3SsaNGe.png" alt="quicker_081ffd21-042b-4efa-9b81-6764e1551968.png" style="zoom:200%;" />
 
-
+<img src="https://i.loli.net/2021/01/24/DndKIgJ4wqOyU5M.png" alt="20151013182022818.png"  />
 
 画元器件的PCB的步骤
 
-新建	
+新建	0
 
 | class            | subclass        | function                             |
 | ---------------- | --------------- | ------------------------------------ |
@@ -237,13 +241,54 @@ pad designer——layers——shape
 
 # 通孔类元件的绘制
 
+reset6*6	引脚宽度0.7mm    钻孔的大小比管脚大10~12mil  =   1mm直径的钻孔   
+
+***负片格式需要花焊盘***
+
+**花焊盘**，梅花焊盘+GND、十字花焊盘-减慢散热，方便焊接、泪滴焊盘-固定性好
+
+尺寸的选取1.5 1.8 0.7 内径=钻孔+6~8mil/20mil   外径=内径+6~8mil/12mil
+
+![quicker_d231089d-4bbf-48ac-88b0-a57a908a9c68.png](https://i.loli.net/2021/01/23/KzJ2rjYHn7Eoed9.png)
+
+
+
+| 正规焊盘 Regular pad | Pin1一般所有层为外方内圆，其余的一般为圆环性  |
+| -------------------- | --------------------------------------------- |
+| 热风焊盘 Thermal pad | 一般为flash焊盘；而在外层放置时同正规焊盘一致 |
+| 隔离盘 Anti pad      | 一般比正规焊盘大0.1mm                         |
+
+外层(begin layer与end layer)：填写一致
+
+内层(default internal)：内层为圆环形焊盘
+
+组焊层的top与bottom都要填写一致，大0.1mm
+
+加焊层的top与bottom都要填写一致
+
+
+
+按键通孔的pcb配置：阴片与阳片
+
+1. flash焊盘
+
+2. 通常需要与电源层、地层的连接
+
+添加flash图形(add---flash):arrow_right:create symbol
+
+Pad_desinger:arrow_right:Drill:arrow_right:plating(是否上锡):arrow_right:drill/slot symbol​
+
+直插型通孔第一个引脚一般为外方内圆
 
 
 
 
 
+# 非电气属性引脚的元器件封装
 
+无电气属性的通孔的焊盘只在Top_layer与end_layer上进行焊盘的设置
 
+画引脚，option选择Mechanical
 
 # LP Wizard的操作方法
 
@@ -256,3 +301,41 @@ Calculate——SMD Calculate——查找封装，对应的芯片
 SOIC-----两边都是引脚
 
 PQFP----四周都是引脚
+
+PCB内层板----负片格式----划线的地方没有铜皮，没划线的地方反而有铜皮————常常需要flash焊盘级花焊盘
+
+​					----正片格式----一般不需要flash焊盘
+
+
+
+
+
+
+
+Soldermask_Top	阻焊层	就是我们常说的绿油层，是电路板的非布线层	在阻焊层上预留的焊盘大小，要比实际焊盘大一些，奇差之一般为10~12mil
+
+Pastemask_Top	锡膏防护层(加焊层)	该层用来制作钢膜
+
+regular pad的尺寸和paste mask的尺寸相等，sold mask的尺寸要比regular pad的尺寸大0.1mm
+
+自定义焊盘需要先做shape symbol （一个是regular 另一个是sold mask），然后在做pad
+
+通孔类焊盘，孔径做成比实际尺寸大12mil，内电层的flash内径比孔径大8mil。anti pad要比regular pad大0.1mm
+
+没有电气特性的钻孔，制作焊盘时选择Non-plated，而且只在begin layer和end layer
+
+
+
+
+
+# 创建电路板
+
+***非自动即手工***
+
+板框：board geometry——outline   确定电路板的形状		
+
+​		倒角：chamfer——45度倒角————放置电路板的四个直角太过锋利划伤自己
+
+​					fillet——圆弧倒角
+
+![image-20210125205004647](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210125205004647.png)
