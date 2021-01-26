@@ -332,10 +332,57 @@ regular pad的尺寸和paste mask的尺寸相等，sold mask的尺寸要比regul
 
 ***非自动即手工***
 
-板框：board geometry——outline   确定电路板的形状		
+板框：board geometry——outline   确定电路板的形状	:star:必须用line画，否则倒角不能运行	
 
 ​		倒角：chamfer——45度倒角————放置电路板的四个直角太过锋利划伤自己
 
-​					fillet——圆弧倒角
+​					fillet——圆弧倒角 radius——半径
 
 ![image-20210125205004647](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210125205004647.png)
+
+
+
+允许布线区域：要求与板框边缘有一定距离，距离一般为200mil————主要看pcb板商的工艺
+
+允许摆放区域：
+
+​		package：表示元器件放置允许禁止区域
+
+​		route：布线允许禁止区域...
+
+```
+edit_z copy
+z_copy命令:选择好class_subclass
+			选择好size:contract(收缩) expand(扩张) offset(收缩或扩张的尺寸)
+```
+
+
+
+![布线区域操作.png](https://i.loli.net/2021/01/26/tSYrVjF8i3w29HD.png)
+
+安装孔：其实就是一个**不挂锡**的**通孔**——通孔的尺寸
+
+* 封装：和做通孔的过程一致，不同的是孔径要比焊盘的直径要大。
+
+  * 所以先按照通孔做，之后在改正外层与内层的焊盘大小
+
+    place_manually
+
+    advanced settings——library
+
+层叠结构 setup_cross section
+
+* | 选项               |                                                      |      |
+  | ------------------ | ---------------------------------------------------- | ---- |
+  | type               | conductor(导电层)、dielectric(介质层)、plane(内电层) |      |
+  | material           | copper(铜)、FR-4                                     |      |
+  | Etch subclass name | top、bottom、内电层：GND层、电源层                   |      |
+  | negative artwork   | 是否选择为**负片格式**                               |      |
+
+铺铜：与route keepin尺寸一致
+
+* z_copy命令：选择与route keepin的尺寸，在Etch_GND或power下选择create dynamic shape，就OK了
+
+导入网表：file_import_logic 
+
+设置栅格点： 
