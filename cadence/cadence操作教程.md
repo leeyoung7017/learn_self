@@ -228,11 +228,22 @@ regular pad的尺寸一般比引脚尺寸内外侧补偿大约0.4~0.6mm
    
    ### 3.2.元器件的放置
 
-| 放置方式 | 方法                                                         |
-| -------- | ------------------------------------------------------------ |
-| 手动放置 | place_manually                                               |
-| 交互放置 | 原理图中设置option_preference_miscellaneous_勾选enable intertool communication |
-|          | 在PCB中打开manually，在原理图中右击元器件后shift+s           |
+| 放置方式         | 方法                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| 手动放置         | place_manually                                               |
+| 交互放置         | 原理图中设置option_preference_miscellaneous_勾选enable intertool communication |
+|                  | 在PCB中打开manually，在原理图中右击元器件后shift+s           |
+| 按照自写属性放置 | 原理图中为批量的元器件添加同一属性与value值                  |
+|                  | 重新生成网表(setup_edit需要更改)_选中下列\_点击user property |
+|                  | 在PCB中重新导入网表，选中user property                       |
+|                  | quickplace_place by property/value进行选择；选择摆放的位置   |
+| **按照room放置** | 更改元器件的属性edit_property                                |
+| 这种方法常用在   | find_选择comp(or pin)，选择放入一个room的元器件              |
+| 标注功能模块化   | 弹出的对话框中找到room，添加value值                          |
+|                  | setup_outlines_room outlines——画出作为room为value的区域，修改也是这样操作 |
+|                  | quickplace_选择place by room                                 |
+|                  |                                                              |
+|                  |                                                              |
 
 | 元器件摆放方式 | 未放置      | 已放置                |
 | -------------- | ----------- | --------------------- |
