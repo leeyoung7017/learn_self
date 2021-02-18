@@ -93,7 +93,7 @@ int main()
 | ---- | ---- | ---- |
 | 非   | 与   | 或   |
 
-# [应用1](E:\CPP\hello_world\)
+# [应用1](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/hello_world/)
 
 # 5. 程序流程
 
@@ -115,7 +115,7 @@ int main()
 
 `(num1 > num2 ? num2 : num1) = 100;`
 
-### [应用2](E:\CPP\struct_choise\)
+### [应用2](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/struct_choise/)
 
 ## 5.3. 循环结构
 
@@ -127,7 +127,7 @@ int main()
 
 ### 5.3.4. 嵌套循环
 
-### [应用3](E:\CPP\struct_choise\)
+### [应用3](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/hello_world/struct_choise/)
 
 ## 5.4. 跳转语句
 
@@ -173,7 +173,7 @@ int score[3][3] = {	{100,100,100},
 
 略；
 
-[应用4](E:\CPP\array\)
+[应用4](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/array/)
 
 # 7.函数
 
@@ -235,8 +235,10 @@ int add(int num1, int num2);
 * 源文件是将函数写入，同函数的定义，但是不要忘记#include的命令
 * 写完之后需要将头文件目录包含进去，网上查找即可；
 
-[应用5](E:\CPP\func\)
+[应用5](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/func/)
 
 # 8. 指针
 
 ## 8.1. 定义
+
+[应用6](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/pointer/)
