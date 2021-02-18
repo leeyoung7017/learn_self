@@ -1,0 +1,4 @@
+﻿  struct_choise.cpp
+E:\CPP\struct_choise\struct_choise\struct_choise.cpp(24,2): warning C4145: “==”: 关系表达式用作 switch 表达式；可能和“=”混淆
+E:\CPP\struct_choise\struct_choise\struct_choise.cpp(33,2): warning C4809: 切换语句有多余的“default”标签；给定所有可能的“case”标签
+  struct_choise.vcxproj -> E:\CPP\struct_choise\Debug\struct_choise.exe
