@@ -127,7 +127,7 @@ int main()
 
 ### 5.3.4. 嵌套循环
 
-### [应用3](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/hello_world/struct_choise/)
+### [应用3](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/loop/)
 
 ## 5.4. 跳转语句
 
@@ -173,7 +173,7 @@ int score[3][3] = {	{100,100,100},
 
 略；
 
-[应用4](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/array/)
+## [应用4](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/array/)
 
 # 7.函数
 
@@ -235,10 +235,116 @@ int add(int num1, int num2);
 * 源文件是将函数写入，同函数的定义，但是不要忘记#include的命令
 * 写完之后需要将头文件目录包含进去，网上查找即可；
 
-[应用5](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/func/)
+## [应用5](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/func/)
 
 # 8. 指针
 
 ## 8.1. 定义
 
-[应用6](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/pointer/)
+````c++
+int* a_p;/*int型指针*/
+char* c_p;/*char型指针*/
+char* s_p[];/*字符串指针数组*//*类似二维指针*/
+/*字符串数组指针中*s_p为一体的数组/
+````
+
+## 8.2. 使用
+
+```
+*a_p	*c_p	*s_p表示第一组字符串
+```
+
+## 8.3.指针所占空间
+
+```c++
+	cout << "int*：\t" << sizeof(int*) << endl;
+	cout << "char*：\t" << sizeof(char*) << endl;
+	cout << "float*：" << sizeof(float*) << endl;
+	cout << "double*:" << sizeof(double*) << endl;
+```
+
+:star:由实验可知，在32位操作系统下(x86)，地址所占空间为4字节；在64位操作系统下(x64)，地址所占空间为8字节。
+
+:star:与指针存储内容的类型无关。
+
+## 8.4. 空指针与野指针
+
+### 8.4.1. 空指针
+
+**空指针：**指针变量指向内存空间编号为零的空间地址
+
+**用途：**可以用于初始化指针变量
+
+:star:空指针指向的内存空间是不可访问的
+
+:star:0~255之间的空间指针编号是系统占用内存，不允许用户访问
+
+```c++
+int *p = NULL;/*空指针*/
+cout << *p << endl;/*error*/
+```
+
+### 8.4.2. 野指针
+
+**野指针：**指针变量指向非法的内存空间
+
+`int *p = (int*)0x1100;/*不能直接指向具体的地址*/`
+
+## 8.5. const修饰指针
+
+### 8.5.1. 常量指针
+
+**常量指针**：const修饰指针
+
+**特点：**指针的指向可以更改；内容不能更改；
+
+`const int* p = &a;`
+
+### 8.5.2. 指针常量
+
+**指针常量：**const修饰的常量
+
+**特点：**指针的指向不可以更改，内容可以更改
+
+`int* const p = &a;`
+
+## 8.6. 数组与指针
+
+:star2:只要记住char类型的指针有着特殊的特点，就可以了。
+
+### 8.6.1. char类型
+
+:star:char类型的指针与地址彻底无关；word_p输出字符串；*word_p输出第一个字符
+
+```c++
+	char word[] = "hello_world";
+	char* word_p;
+	word_p = word;/*数组的首地址*/
+	cout << "word_p：\t" << word_p << endl;/*输出整个数组*/
+	cout << "*word_p：\t" << *word_p << endl;/*只输出一个值*/
+	cout << "*(word_p+1)：\t" << *(word_p+1) << endl;/*只输出一个值*/
+```
+
+### 8.6.2. int类型
+
+:star:int类型的指针与地址相关；num_p输出地址；*num_p输出第一个值
+
+```c++
+int num[] = { 0,1,2,3,4,5 };
+	int* num_p;
+	num_p = num;
+	cout << "num_p：\t" << num_p << endl;
+	cout << "*num_p：" << *num_p << endl;
+```
+
+## [应用6](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/pointer/)
+
+## 8.7. 指针与函数
+
+**形参指针地址传递**
+
+**返回值为指针**
+
+
+
+## [应用7](https://github.com/leeyoung7017/learn_self/tree/Lee/CPP/pointer_func/)
