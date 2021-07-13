@@ -19,9 +19,10 @@ heterogeneous：表示每个package下的多个part不属于同源
 * library的技巧
   * 取消栅格点：option_preference_grid display
   * 批量引脚：place_pin array   :star:注意type
-  
-  ### 1.2.project
-  
+
+
+### 1.2.project
+
 * #### 新建project
 
 ​	:star:新建路径不要有中文
@@ -90,15 +91,14 @@ heterogeneous：表示每个package下的多个part不属于同源
 * :star:注意：摆放引脚时options内部的各个选项的含义
 * :star:注意：多引脚的情况下需要标注那个角是初始角，需要用一个点来标注初始角的边
 
-  ### 2.2.新建 shape symbol
+### 2.2.新建 shape symbol
 
 * 使用各种图形可以进行拼凑形成
-
 * 完毕之后使用Shape_merge shapes将规则图形进行合并
 * 进行create symbol
 * :star:如果在Pad_Desinger下找不到该焊盘，需要在PCB_Editor下查找user preference_paths_padpath/psmpath设置路径
 
-  ### 2.3.新建flash symbol
+### 2.3.新建flash symbol
 
 #### 创建flash symbol，一般是为了创建花焊盘，创建通孔而设计的
 
@@ -251,3 +251,4 @@ regular pad的尺寸一般比引脚尺寸内外侧补偿大约0.4~0.6mm
 | 翻转摆放       | 右击_rotate | edit_move+右击_rotate |
 
 ### 	3.3.放置与布线规则
+
