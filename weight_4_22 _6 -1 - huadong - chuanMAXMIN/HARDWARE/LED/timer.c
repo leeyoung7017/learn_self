@@ -156,22 +156,26 @@ int ms = 0;
 unsigned char flag_test = 0;
 unsigned char flag_screen= 0;
 unsigned int valve = 0, valve_keep=0,valve1 = 0,valve_return=0;
-void TIM2_IRQHandler(void)   //TIM3中断
+void TIM2_IRQHandler(void)   //TIM2中断
 {
 	static unsigned int cnt = 0,time_buf = 0,sec_2= 0;
+	
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)  //检查TIM3更新中断发生与否
 	{
 		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);  //清除TIMx更新中断标志 
 		cnt++;
 		ms++;
 	//	mms_temp++;
-		if(initflag == 0){
-				if((cnt % 100) == 0)
-					average_flag = 1;		//to caculate average 100/s only once from init
+		if(initflag == 0)
+		{
+			if((cnt % 100) == 0)	//100次运行后average_flag值1
+				average_flag = 1;		//to caculate average 100/s only once from init
 		}
-		else if(cnt >= 4){
+		else if(cnt >= 4)
+		{
 			sec_2++;
-			if(sec_2 == 2){
+			if(sec_2 == 2)
+			{
 				sec_2 = 0;
 				to_get_num = 1;				//4*2=8,mei >8 ms jin yici ,zhi xing yici get_data_ad_send;
 			}
@@ -186,26 +190,30 @@ void TIM2_IRQHandler(void)   //TIM3中断
 			{
 				amp11_t = data_compare();
 				//amp11_t =1000 ;
-			data_and_send();
-				}
+				data_and_send();
+			}
 		}
 		if(flag_screen == 1)
 		{
 //			amp11 =get_data_and_send_moving();
-//		// amp11=amp;
-//		 amp11 = amp-data_temp+change_old;;
+//			// amp11=amp;
+//			amp11 = amp-data_temp+change_old;;
 			data_and_send();
 			flag_screen= 0;
 		}
-		/**********************kong zhi lai hui bo dong**************************************************/
+/**********************kong zhi lai hui bo dong**************************************************/
 		
-		if (over_top == 1){
+		if (over_top == 1)
+		{
 			valve++;
-			if (valve >= tichu_old){
+			if (valve >= tichu_old)
+			{
 				GPIO_ResetBits(GPIOC,GPIO_Pin_7);// start
 			} 
 			valve_keep++;
-		  if (valve_keep >=(keep_old+tichu_old)) {
+			
+			if (valve_keep >=(keep_old+tichu_old)) 
+			{
 				
 				GPIO_SetBits(GPIOC,GPIO_Pin_7); //return
 				over_top = 0;
@@ -213,31 +221,7 @@ void TIM2_IRQHandler(void)   //TIM3中断
 				valve_keep=0;
 			}
 		}
-		if(flag_test == 1)
-		{
-    	flag_test = 0;
-			READ_HMI(0X1000,0X01);//读“启动”/“停止”状态
-			
-			READ_HMI(0X0010,0X02);//读“皮带转速”状态
-			
-			READ_HMI(0X1010,0X02);//读重量“下限”状态
-			
-			READ_HMI(0X1012,0X02);//读重量“上限”状态
-			
-			READ_HMI(0X1034,0X02);//读重量“上限”状态
-			READ_HMI(0X2014,0X02);//读剔除延迟
-			
-			READ_HMI(0X2016,0X02);//读动作保持
-			READ_HMI(0X1018,0X02);//读重量标定
-			READ_HMI(0X302A,0X02);//标定零点
-			
-			READ_HMI(0X302C,0X02);//标加载重量
-			
-			READ_HMI(0X1014,0X02);//change
-			
-			READ_HMI(0X302E,0X02);//标加载重量
-		}
-		/************************kong zhi lai hui bo dong************************************************/
+				
 		if (below_bottom == 1){
 			valve1++;
 			if (valve1 >= tichu_old){
@@ -251,18 +235,37 @@ void TIM2_IRQHandler(void)   //TIM3中断
 				valve_return=0;
 				//GPIO_SetBits(GPIOA,GPIO_Pin_11);  
 			}
-		}//end of bellow_bottom
-		
-		//定时读取串口屏状态
-//		if(flag_test == 1)
-//		{
-//    	flag_test = 0;
-//			READ_HMI(0X1010,0X02);//读重量“下限”状态
-//			
-//			READ_HMI(0X1012,0X02);//读重量“上限”状态
-//		}
-		
-	
+		}
+/************************kong zhi lai hui bo dong************************************************/
+/************************chuankou ping du qu shuju************************************************/		
+		if(flag_test == 1)
+		{
+			flag_test = 0;
+			
+			//获取串口屏指令
+			READ_HMI(0X1000,0X01);//读“启动”/“停止”状态
+			
+			READ_HMI(0X0010,0X02);//读“皮带转速”状态
+			
+			READ_HMI(0X1010,0X02);//读重量“下限”状态
+			
+			READ_HMI(0X1012,0X02);//读重量“上限”状态
+			
+			READ_HMI(0X1034,0X02);//读重量“清零”状态
+			
+			READ_HMI(0X2014,0X02);//读剔除延迟
+			
+			READ_HMI(0X2016,0X02);//读动作保持
+			READ_HMI(0X1018,0X02);//读重量标定
+			READ_HMI(0X302A,0X02);//标定零点
+			
+			READ_HMI(0X302C,0X02);//标加载重量
+			
+			READ_HMI(0X1014,0X02);//change
+			
+			READ_HMI(0X302E,0X02);//标加载重量
+		}
+
 	}
 }
 

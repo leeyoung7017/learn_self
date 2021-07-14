@@ -85,12 +85,12 @@ void USARTx_IRQHandler(void)                	//串口1中断服务程序
 		
 	if(USART_GetITStatus(USARTx1, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
 {
-		USART1_Rec.Buf[USART1_Rec.pushIndex++] =USART_ReceiveData(USARTx1);//(USART1->DR);	//读取接收到的数据
+		USART1_Rec.Buf[USART1_Rec.pushIndex++] =USART_ReceiveData(USARTx1);//(USART1->DR);	//读取接收到的数据				USART1_Rec.pushIndex++		
 			
 	
 		if(commdIsRec_uart1(&USART1_Rec) == 1)
 		{
-			USART_RecDeal(USART1);
+			USART_RecDeal(USART1);   //数据处理
 		}
 //		while(USART_GetFlagStatus(USARTx1,USART_FLAG_TXE ) != SET );
 //			USART_SendData(USARTx1,USART1_Tx.Buf[USART1_Tx.Index++]);

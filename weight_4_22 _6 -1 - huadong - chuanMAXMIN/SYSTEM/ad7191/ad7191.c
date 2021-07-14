@@ -23,7 +23,7 @@ int flag_count = 1;
 	 float  sum_s= 0;
  //int i_count=0;
  int x_count = 0;
- int A_BUFF[N];
+ int A_BUFF[N];//数据获取数组
  /*int A_BUFF[N]={9285958,9285933,9285985,9285925,9286005,9285897
 ,9286004
 ,9285900
@@ -313,31 +313,31 @@ unsigned char light_sensor = 0;
 float get_data_and_send()
 {
 //	static int sum_s= 0;
-  static int data1 =0;
+	static int data1 =0;
 	static int i_icount=0;
 	static int ptr = 0,ptr_d= 0;
 	static int over_flag= 0;
 	static int j1=0;
 	static int  d =0 ;
-	static int data1_max[10] ,data1_min[10] ;
+	static int data1_max[10] ,data1_min[10] ;	//极值数组
 	static int data_sum= 0,sum_min =0,sum_max=0,sum_sum=0;
-	static int i_max=0,i_min= 0,i_sum = 0,i_iamp = 0;
+	static int i_max=0,i_min= 0,i_sum = 0,i_iamp = 0;	//max	min 极值的个数
 	static int i_amp= 0;
 	static int flag_amp=0;
 	static float sum_amp = 0;
-		static int pre_m= 0,pre_n = 0,data_t=0;	
+	static int pre_m= 0,pre_n = 0,data_t=0;	
 	while(PAin(6) == 1){
 		;
 	}
-  data1 = read_data_from_ad7191();
+	data1 = read_data_from_ad7191();
 	A_BUFF[ptr] = data1;
-	
-		ptr++;
-	if(ptr == N) {
+	ptr++;
+	if(ptr == N) 
+	{
 		ptr = 0;
 		over_flag = 1;
 	}
-	if(over_flag == 1)
+	if(over_flag == 1)//法1
 	{	
 
 		for(ptr_d= 0;ptr_d<N-2;ptr_d++)
@@ -358,55 +358,61 @@ float get_data_and_send()
 				}
 					
 		
-		if((i_min<=2)||(i_max<=2))
+		if((i_min<=2)||(i_max<=2))//特殊情况
 		{	
 			for(pre_m= 0;pre_m<N;pre_m++)
 			
-											{	for(pre_n=0;pre_n<32-pre_m;pre_n++)
-													{if(arr[pre_n]>arr[pre_n+1])
-													 {
-													 data_t=A_BUFF[pre_n];
-													 A_BUFF[pre_n]=A_BUFF[pre_n+1];
-													 A_BUFF[pre_n+1]=data_t;
-													 }}}
+			{	for(pre_n=0;pre_n<N-pre_m;pre_n++)
+				{
+					if(A_BUFF[pre_n]>A_BUFF[pre_n+1])
+					 {
+						 data_t=A_BUFF[pre_n];
+						 A_BUFF[pre_n]=A_BUFF[pre_n+1];
+						 A_BUFF[pre_n+1]=data_t;
+					 }
+				}
+			}
 			sum_sum =A_BUFF[0]+A_BUFF[15];
 			data_sum = sum_sum/2;
 		}
-		else{	
-				if(i_min<i_max)
-						{i_sum = i_min;}
-				else{i_sum = i_max;}
-					for(i_min= 0;i_min<i_sum;i_min++)
-					{
-						sum_min= data1_min[i_min]+sum_min;
-					}
-					for(i_max= 0;i_max<i_sum;i_max++)
-					{
-						sum_max= data1_max[i_max]+sum_max;
-					}
-					data_sum = (sum_max+sum_min)/(2*(i_sum));
-				}
-		
-		amp1 =(float)((data_sum)-8388608)*5.00*1000/(128*8388608);
-			load_amp[i_amp] = amp1;//biao ding
-			i_amp++;
-			if(i_amp >= 16) {
-				i_amp = 0;
-				flag_amp = 1;
-					}
-			/*if(flag_amp==1)
-			{for(i_iamp = 0;i_iamp<5;i_iamp++)
-				{
-					sum_amp= sum_amp+load_amp[i_iamp];
-					
-				}
-				flag_amp = 0;
-				i_iamp = 0;
+		else
+		{	
+			if(i_min<i_max){i_sum = i_min;}
+			else{i_sum = i_max;}
+			
+			for(i_min= 0;i_min<i_sum;i_min++)
+			{
+				sum_min= data1_min[i_min]+sum_min;
 			}
-			amp1 = 		sum_amp/5;*/
-	if(flag_load == 1)
+			
+			for(i_max= 0;i_max<i_sum;i_max++)
+			{
+				sum_max= data1_max[i_max]+sum_max;
+			}
+			
+			data_sum = (sum_max+sum_min)/(2*(i_sum));
+		}
+		
+		amp1 =(float)((data_sum)-8388608)*5.00*1000/(128*8388608); //电压转换公式 
+		load_amp[i_amp] = amp1;//biao ding
+		i_amp++;
+		if(i_amp >= 16) {
+			i_amp = 0;
+			flag_amp = 1;
+				}
+		/*if(flag_amp==1)
+		{for(i_iamp = 0;i_iamp<5;i_iamp++)
+			{
+				sum_amp= sum_amp+load_amp[i_iamp];
+				
+			}
+			flag_amp = 0;
+			i_iamp = 0;
+		}
+		amp1 = 		sum_amp/5;*/
+		if(flag_load == 1)
 		{
-			amp_v = (2000/(line_m-line_b))*(amp1-line_b);
+			amp_v = (2000/(line_m-line_b))*(amp1-line_b);	//重量转化公式 电压与重量为线性关系
 			//flag_load = 0;
 			flag_load = 0;
 		}	
@@ -432,8 +438,8 @@ float get_data_and_send()
 float get_data_and_send_moving()
 {
 	static int i_m =0;
-		static int m=0;
-  static int n = 0;
+	static int m=0;
+	static int n = 0;
 	static float t = 0;
 	static float sum_jj= 0;
 //			for(i_m = 0;i_m<32;i_m++)
@@ -469,10 +475,10 @@ float get_data_and_send_static()
 	static int i_con=0;
 	
 	static int i_count=0;
-  static int j = 0;
-  static float sum_j = 0,sum_jj= 0;
+	static int j = 0;
+	static float sum_j = 0,sum_jj= 0;
 	static int m=0;
-  static int n = 0;
+	static int n = 0;
 	static float t = 0;
 	static int i_pre=0;
 	static int i_i=0;
@@ -506,90 +512,84 @@ float get_data_and_send_static()
 float data_compare()		
 {
 	static int i_pre=0;
-		amp = get_data_and_send_static();
-		//amp= 1000;
-					if(amp>3)
-									{
-										
-										if(i_pre<1)
-										{amp_pre=amp;
-											i_pre++;
-										}else{i_pre = 0;}
-									if(i_pre==0)
-									{
-									er_2= amp-amp_pre ;
-									er_1 = amp_pre-amp_pre_1;
-									
-									er=amp-amp_pre_1 ;
-									if(((er_1>=0.5)&&(er_2>=0.5))||((er_1<=-0.5)&&(er_2<=-0.5)))
-										{
-											amp_pre_1=amp;
-											return  amp;
-										}
-									else if(((er_1>=0.5)&&(0.5>er_2>0))||((er_1<=-0.5)&&(-0.5<er_2<0)))	
-										{
-												amp_pre_1 =amp_pre;
-												return  amp_pre;
-										}
-									else if(((0.5>er_1>0)&&(0.5>er_2>=0))||((-0.5<er_1<0)&&(-0.5<er_2<=0)))	
-										{
-												if(fabs(er)<=0.5)
-													{
-														return  amp_pre_1;
-													
-													}
-													else{
-														amp_pre_1 = amp;
-														return  amp;
-														}
-						
-													
-										}
-										else {return  amp_pre_1;}
-										
-									
-									}
-									else 
-												{return  amp_pre_1;}
-								}
-							else
-									{
-										amp=0;
-										return  amp;
-												
-												
-										}
-									
+	amp = get_data_and_send_static();
+	//amp= 1000;
+	if(amp>3)
+	{
+		if(i_pre<1)
+		{
+			amp_pre=amp;
+			i_pre++;
+		}
+		else{i_pre = 0;}
+		
+		if(i_pre==0)
+		{
+			er_2= amp-amp_pre ;
+			er_1 = amp_pre-amp_pre_1;
+			er=amp-amp_pre_1 ;
+			if(((er_1>=0.5)&&(er_2>=0.5))||((er_1<=-0.5)&&(er_2<=-0.5)))
+			{
+				amp_pre_1=amp;
+				return  amp;
 			}
+			else if(((er_1>=0.5)&&(0.5>er_2>0))||((er_1<=-0.5)&&(-0.5<er_2<0)))	
+			{
+				amp_pre_1 =amp_pre;
+				return  amp_pre;
+			}
+			else if(((0.5>er_1>0)&&(0.5>er_2>=0))||((-0.5<er_1<0)&&(-0.5<er_2<=0)))	
+			{
+				if(fabs(er)<=0.5)
+				{
+					return  amp_pre_1;
+				}
+				else
+				{
+					amp_pre_1 = amp;
+					return  amp;
+				}
+			}
+			else {return  amp_pre_1;}
+		}
+		else {return  amp_pre_1;}
+	}
+	else
+	{
+		amp=0;
+		return  amp;
+	}
+}
 
+/*数据传输到串口屏*/
 void data_and_send(void)
 {
 	unsigned char *printbuf;
-	 unsigned char *data_print;
-	 unsigned char *pp;
-	 	int length = 0;
+	unsigned char *data_print;
+	unsigned char *pp;
+	int length = 0;
 
-			printbuf = (unsigned char *) calloc (40,sizeof(unsigned char));
-			data_print = (unsigned char *) calloc (20,sizeof(unsigned char));
-			pp = (unsigned char *) calloc (40,sizeof(unsigned char));
+	printbuf = (unsigned char *) calloc (40,sizeof(unsigned char));
+	data_print = (unsigned char *) calloc (20,sizeof(unsigned char));
+	pp = (unsigned char *) calloc (40,sizeof(unsigned char));
 
 	amp11_t= amp11_t-data_temp;
 	if(amp11_t<0)
 	{amp11_t=0;}
 	sprintf((char *)data_print,"%.1f\r\n",amp11_t);
-			length = deal_num(pp,data_print);
-			USART3_Push(data_print,length);       //调试串口
-			printbuf[0] = 0x5a;
-			printbuf[1] = 0xa5;
-			printbuf[2] = length + 3;
-			printbuf[3] = 0x82;
-			printbuf[4] = (ADDR & 0xff00) >> 8;
-			printbuf[5] = (ADDR & 0x00ff);
-			memcpy((printbuf + 6),pp,length);
-			USART1_Push(printbuf,length + 6);    //RS232给串口屏
-			free(data_print);
-			free(printbuf);
-			free(pp);
+	length = deal_num(pp,data_print);
+	USART3_Push(data_print,length);       //调试串口
+	printbuf[0] = 0x5a;
+	printbuf[1] = 0xa5;
+	printbuf[2] = length + 3;
+	printbuf[3] = 0x82;
+	printbuf[4] = (ADDR & 0xff00) >> 8;
+	printbuf[5] = (ADDR & 0x00ff);
+	memcpy((printbuf + 6),pp,length);
+	USART1_Push(printbuf,length + 6);    //RS232给串口屏
+	free(data_print);
+	free(printbuf);
+	free(pp);
 }
 //AD配置函数
 /*void ad7191_config(enum rate_switch rate, enum gain_switch gain, int channal, unsigned char in_or_temp, unsigned char in_or_ex)

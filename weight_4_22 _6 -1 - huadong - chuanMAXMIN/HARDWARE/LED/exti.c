@@ -5,9 +5,9 @@
 //外部中断0服务程序
 void EXTIX_Init(void)
 {
- //PA6 ADshuchu
-		EXTI_InitTypeDef EXTI_InitStructure;
-		NVIC_InitTypeDef NVIC_InitStructure;
+	//PA6 ADshuchu
+	EXTI_InitTypeDef EXTI_InitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;
 
    	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);	//使能复用功能时钟
 
@@ -26,14 +26,13 @@ void EXTIX_Init(void)
   	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;								//使能外部中断通道
   	NVIC_Init(&NVIC_InitStructure); 
 
-//PB14  guanggan
-
-		GPIO_EXTILineConfig(GPIO_PortSourceGPIOB,GPIO_PinSource14); //PB14
+	//PB14  guanggan
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB,GPIO_PinSource14); //PB14
 
   	EXTI_InitStructure.EXTI_Line=EXTI_Line14;
-		EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;	
+	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;	
   	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
-		EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
   	EXTI_Init(&EXTI_InitStructure);		//根据EXTI_InitStruct中指定的参数初始化外设EXTI寄存器
 	
 	
@@ -41,7 +40,7 @@ void EXTIX_Init(void)
   	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x02;	//抢占优先级2， 
   	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;					//子优先级1
   	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;								//使能外部中断通道
-		NVIC_Init(&NVIC_InitStructure);
+	NVIC_Init(&NVIC_InitStructure);
 }
 
 
@@ -55,43 +54,46 @@ enum {T,W}state_TW;
 	 float sum_zero = 0;
 	 int amp_zero= 0;
 
+/*****************************************
+	*	@brief	外部中断中实现了'数据的获取'、'数据的处理'
+******************************************/
 void EXTI9_5_IRQHandler(void)
 {
-		if(EXTI_GetITStatus(EXTI_Line6)!= RESET)//yes or no inter interrupt
+		if(EXTI_GetITStatus(EXTI_Line6)!= RESET)//yes or no inter interrupt   pa6------DOUT/RDY 
  {
 	  state_TW = W;
 		amp_ad = get_data_and_send();
 	
 	 flag_count = 0;
 	 mms_temp++;
-	 if((flag_state == 2)&&(flag_moving==1))
+	 if((flag_state == 2)&&(flag_moving==1))	//动态获取的数据处理
 	 {
 		//amp11 =get_data_and_send_moving();
 		// amp11=amp;
 		// amp11_t = amp_ad-data_temp+change_old;
-		  amp11_t = amp_ad-data_temp+change_old;
+		amp11_t = amp_ad-data_temp+change_old;		
+		flag_screen = 1;
+		if(flag_screen == 1)
+		{
+			PCout(0) = 1;
+			state_TW =T;
+			data_temp = GetTemperature();
+			state_TW = W;
+			PCout(0) = 0;
+			flag_temp= 0;	 
+		}
+
+		//波动标志位
+		if((amp11_t>2)&&(amp11_t<xia_old))//
+		{
+			over_top = 1;
+		}
+		if(amp11_t>shang_old)
+		{
+			below_bottom  = 1;
+		}
 		
-		 flag_screen = 1;
-		 if(flag_screen == 1)
-		 {
-			 PCout(0) = 1;
-			 state_TW =T;
-			 data_temp = GetTemperature();
-			 state_TW = W;
-			 PCout(0) = 0;
-			flag_temp= 0;
-			 
-		 }
-		 if((amp11_t>2)&&(amp11_t<xia_old))//
-					{
-						over_top = 1;
-					}
-				
-				if(amp11_t>shang_old)
-				{
-					below_bottom  = 1;
-				}
-				flag_moving=0;
+		flag_moving=0;
 	 }
 	 else
 		 {
@@ -119,7 +121,7 @@ void EXTI9_5_IRQHandler(void)
  
 void EXTI15_10_IRQHandler(void)
 {
-		if(EXTI_GetITStatus(EXTI_Line14)!= RESET)//yes or no inter interrupt
+		if(EXTI_GetITStatus(EXTI_Line14)!= RESET)//yes or no inter interrupt	PB14
  {
 	 flag_moving=1;
 		

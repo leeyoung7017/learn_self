@@ -14,9 +14,10 @@ unsigned short CommIndex_Star = 0,UART_RecLen = 0;
 void getStr(unsigned char *pData,unsigned char offset ,unsigned char len)
 {
 	unsigned char cnt;
-	for(cnt = 0; cnt < len; cnt ++){
+	for(cnt = 0; cnt < len; cnt ++)
+	{
 		Rx_Deal_Str[cnt] = pData[offset++];
-			if(offset >= UART_RX_BUFF_LEN) offset = 0;
+		if(offset >= UART_RX_BUFF_LEN) offset = 0;
 	}
 }
 void str_copy(unsigned char targ[], unsigned char source[], short len)
@@ -27,6 +28,7 @@ void str_copy(unsigned char targ[], unsigned char source[], short len)
 	}
 }
 
+/*未曾用到*/
 unsigned char commdIsRec(USART_BufDef *DataS)
 {
 	while(((*DataS).Index) != (*DataS).pushIndex){
@@ -55,11 +57,16 @@ unsigned char commdIsRec(USART_BufDef *DataS)
 unsigned char commdIsRec_uart1(USART_BufDef *DataS)
 {
 	static int times = 0;
-	while(((*DataS).Index) != (*DataS).pushIndex){
-		if(((*DataS).Buf[(*DataS).Index - 1] == 0x5a) && ((*DataS).Buf[(*DataS).Index] == 0xa5)){
-			if(((int16_t)((*DataS).pushIndex) - (*DataS).Index) < 0){
+	while(((*DataS).Index) != (*DataS).pushIndex)
+	{
+		if(((*DataS).Buf[(*DataS).Index - 1] == 0x5a) && ((*DataS).Buf[(*DataS).Index] == 0xa5))	//判断前两个字节为5aa5
+		{
+			if(((int16_t)((*DataS).pushIndex) - (*DataS).Index) < 0)
+			{
 				UART_RecLen = (*DataS).pushIndex + 256 - (*DataS).Index + 1;
-			}else{
+			}
+			else
+			{
 				UART_RecLen = (*DataS).pushIndex - (*DataS).Index + 1;
 			}
 			if(UART_RecLen >= 11)
@@ -67,7 +74,9 @@ unsigned char commdIsRec_uart1(USART_BufDef *DataS)
 				getStr((*DataS).Buf,(*DataS).Index - 1,11);
 				(*DataS).Index ++;
 				return 1;
-			}else{
+			}
+			else
+			{
 				times++;
 				if(times >= 2000)
 				{
@@ -119,12 +128,12 @@ unsigned long int HexChar_To_int(unsigned char str[],unsigned char len)
 StrIsEquals	str_compare(unsigned char* str1,unsigned char* str2,unsigned char lth)
 {
 	unsigned char sc_index;
-	for(sc_index = 0; sc_index < lth; sc_index++){
-		if(str1[sc_index] == str2[sc_index]){
-			
-		}else{
-			return STR_UNEQUALS;
-		} 
+	for(sc_index = 0; sc_index < lth; sc_index++)
+	{
+		if(str1[sc_index] == str2[sc_index]){}
+		else	{return STR_UNEQUALS;} 
+		
+		//if(str1[sc_index] != str2[sc_index]) return STR_UNEQUALS;
 	}
 	return STR_EQUALS;
 }
@@ -160,26 +169,29 @@ float sum_b=0,sum_m= 0;
 
 int i_b=0,i_m= 0;
 
-//串口接收
+//串口接收数据处理
 void USART_RecDeal(USART_TypeDef *USARTxD)
 {	
 	static unsigned char cnt = 0;
 	unsigned char cnt_bl = 0;
 	
-	if(USARTxD == USART2){
-		if(UART_RecLen > 7){
-			for(cnt = 0; cnt < UART_RecLen - 8; cnt ++){
-				if(str_compare(&Rx_Deal_Str[cnt],"CMD=",4)==STR_EQUALS ){
-				}
-
+	//串口2为485		检测到噪音、帧错误或校验错误
+	if(USARTxD == USART2)
+	{
+		if(UART_RecLen > 7)			//UART_RecLen	接收数据长度
+		{
+			for(cnt = 0; cnt < UART_RecLen - 8; cnt ++)
+			{
+				if(str_compare(&Rx_Deal_Str[cnt],"CMD=",4)==STR_EQUALS ){	}
 			}
-		}
-		
+		}	
 	}
-	if(USARTxD == USART1){
+	
+	if(USARTxD == USART1)
+	{
 		//变频器开启停止保持状态处理
 		if(str_compare(&Rx_Deal_Str[cnt],command_1,5)==STR_EQUALS )
-			{
+		{
 			static enum state state_now,state_old = state_ide;
 					
 				//enum state state_now,state_old = state_ide;
@@ -289,8 +301,7 @@ void USART_RecDeal(USART_TypeDef *USARTxD)
 	if(str_compare(&Rx_Deal_Str[cnt],command_5,6)==STR_EQUALS )
 		{  if(Rx_Deal_Str[8]==0x01)
 			 { 
-				 origin = amp11_t;
-				 
+				 origin = amp11_t;	 
 			 }
 		}
 	//剔除延迟
