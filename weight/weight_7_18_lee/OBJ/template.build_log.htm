@@ -1,0 +1,75 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.34.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: . ., ., LIC=X1E4T-R32YT-F1XPT-RJRCQ-61JV1-KEPPE
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.34.0.0
+Toolchain Path:  D:\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.34.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.8.0
+Dialog DLL:      TCM.DLL V1.48.0.0
+ 
+<h2>Project:</h2>
+C:\Users\Administrator\Desktop\称重机\weight_7_18\USER\LED.uvprojx
+Project File Date:  07/16/2021
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil\ARM\ARMCC\Bin'
+Build target 'LED'
+compiling exti.c...
+..\SYSTEM\ad7191\ad7191.h(37): warning:  #1295-D: Deprecated declaration read_data_from_ad7191 - give arg types
+  unsigned int read_data_from_ad7191();
+..\SYSTEM\ad7191\ad7191.h(38): warning:  #1295-D: Deprecated declaration get_data_and_send_moving - give arg types
+  float get_data_and_send_moving();
+..\SYSTEM\ad7191\ad7191.h(39): warning:  #1295-D: Deprecated declaration get_data_and_send_static - give arg types
+  float get_data_and_send_static();
+..\SYSTEM\ad7191\ad7191.h(40): warning:  #1295-D: Deprecated declaration ad7191_on - give arg types
+  void ad7191_on();
+..\SYSTEM\ad7191\ad7191.h(41): warning:  #1295-D: Deprecated declaration ad7191_off - give arg types
+  void ad7191_off();
+..\SYSTEM\ad7191\ad7191.h(42): warning:  #1295-D: Deprecated declaration data_compare - give arg types
+  float data_compare();
+..\SYSTEM\ad7191\ad7191.h(43): warning:  #1295-D: Deprecated declaration get_data_and_send - give arg types
+  float get_data_and_send();
+..\SYSTEM\ad7191\ad7191.h(57): warning:  #1295-D: Deprecated declaration To_zero - give arg types
+  extern void To_zero();
+..\SYSTEM\ad7191\ad7191.h(63): warning:  #1295-D: Deprecated declaration GetTemperature - give arg types
+   float	GetTemperature();
+..\HARDWARE\LED\exti.c(95): error:  #134: expected a field name
+  				WRITE_HMI(0x111D,quantity_area.++quantity_area1);//写入串口屏
+..\HARDWARE\LED\exti.c(101): error:  #134: expected a field name
+  				WRITE_HMI(0x1119,quantity_area.++quantity_area3);//写入串口屏
+..\HARDWARE\LED\exti.c(106): error:  #134: expected a field name
+  				WRITE_HMI(0x1115,quantity_area.++quantity_area2);//写入串口屏
+..\HARDWARE\LED\exti.c(58): warning:  #177-D: variable "quality_area"  was declared but never referenced
+  static Quality_Area quality_area;	//是否需要静态变量/							/*重量如何获取*/
+..\HARDWARE\LED\exti.c: 10 warnings, 3 errors
+"..\OBJ\template.axf" - 3 Error(s), 10 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.3.0.pack
+                Keil.STM32F1xx_DFP.2.3.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  D:\Keil\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Target not created.
+Build Time Elapsed:  00:00:03
+</pre>
+</body>
+</html>
